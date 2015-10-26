@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+
+body, h1, h2, h3, ul, li, p, img{ margin:0px; padding:0; list-style:none; border:none;}
+.left{ float:left;}
+.right{ float:right;}
+
+#wrapper{ max-width:800px; height:auto; margin:0 auto; font-family:Verdana, Geneva, sans-serif; font-size:14px; color:#980d1c; overflow:hidden;}
+
+/*.errorTextBox { border: solid 1px red; }*/
+
+.likeDiv{
+	position:absolute;
+	background:#FFF url(//starhub.s3.amazonaws.com/ndp_2013/images/likePage.jpg) no-repeat;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	z-index:9990;
+}
