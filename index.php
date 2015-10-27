@@ -1,26 +1,5 @@
 <?php include("includes.php"); ?>
 
-<?php 
-
-$appFb = new AppFb();
-$appFb->init($conf);
-$appFb->fbauth();
-$init_user = $appFb->user;
-error_log("user:".print_r($init_user,true));
-$page_liked = $appFb->page_liked;
-
-$manager = new appManager();
-$manager->init($conf);
-$user = $manager->setupUser($init_user);
-
-session_start();
-$_SESSION[$conf['appId'].'_user_fb_id'] = isset($user->fb_id)?$user->fb_id:null; // store session data
-session_write_close ();
-
-//var_dump($user);
-
-?>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -32,34 +11,59 @@ session_write_close ();
 	
 	<body>
 		<script>
-		var appId = null;
-		var permission = null; 
-		var actionUrl = null;
-		var appUser = null;
-		
+		  function statusChangeCallback(response) {
+			    console.log('statusChangeCallback');
+			    console.log(response);
+			    // The response object is returned with a status field that lets the
+			    // app know the current login status of the person.
+			    // Full docs on the response object can be found in the documentation
+			    // for FB.getLoginStatus().
+			    if (response.status === 'connected') {
+			      // Logged into your app and Facebook.
+			      testAPI();
+			    } else if (response.status === 'not_authorized') {
+			      // The person is logged into Facebook, but not your app.
+			      document.getElementById('status').innerHTML = 'Please log ' +
+			        'into this app.';
+			    } else {
+			      // The person is not logged into Facebook, so we're not sure if
+			      // they are logged into this app or not.
+			      document.getElementById('status').innerHTML = 'Please log ' +
+			        'into Facebook.';
+			    }
+			}
+
+
+		  function checkLoginState() {
+			    FB.getLoginStatus(function(response) {
+			      statusChangeCallback(response);
+			    });
+			  }
+
+		  
+				
 		$(document).ready(function() {
-				 appId = '<?=$conf['appId']?>';
-				 permission = {scope: '<?=$conf['fb_permission']?>'}; 
-				 actionUrl = '<?=$conf['action_url']?>';
-				 appUser = $.parseJSON( '<?=json_encode($init_user)?>' );
-			
-			  	window.fbAsyncInit = function() {
-				    FB.init({
-				      appId      : '<?=$conf['appId']?>', // App ID
-				      channelUrl : '//web-stalk.com/ws/other/standalone_basic/channel.html', // Channel File
-				      status     : true, // check login status
-				      cookie     : true, // enable cookies to allow the server to access the session
-				      xfbml      : true  // parse XFBML
-				    });
-	
-			  	};
+
+				window.fbAsyncInit = function() {
+				  FB.init({
+				    appId      : '<?=$conf['appId']?>',
+				    cookie     : true,  // enable cookies to allow the server to access 
+				                        // the session
+				    xfbml      : true,  // parse social plugins on this page
+				    version    : 'v2.2' // use version 2.2
+				  });
+				
 		  	
 		  		$('.regUser').click(function() {
 		  			fblogin(permission,registerUser);
 		  			return false;
 		  		});
 
-		  		
+		  		 FB.getLoginStatus(function(response) {
+		  		    statusChangeCallback(response);
+		  		  });
+
+		  		  
 		  		
 			});
 		   
@@ -78,6 +82,12 @@ session_write_close ();
 		
 		<div id="getUser" style="display:none">
 			<a href="#" class="getuser">getuser</a>  
+		</div>
+		
+		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+		</fb:login-button>
+		
+		<div id="status">
 		</div>
 		
 	</body>

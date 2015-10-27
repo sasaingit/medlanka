@@ -4,14 +4,17 @@
 <?php include("core/actionManager.php"); ?>
 
 <?php
-include_once('lib/adodb5/adodb.inc.php');
-include_once('lib/adodb5/adodb-active-record.inc.php');
+include_once('/usr/lib/php5/adodb/adodb5/adodb.inc.php');
+include_once('/usr/lib/php5/adodb/adodb5/adodb-active-record.inc.php');
 
 $ADODB_ASSOC_CASE = 2;
-$db = NewADOConnection('mysql://root:wetteest1@localhost/standalone_basic');
+$db = NewADOConnection('mysql://root:sasa123Nga@localhost/medlanka');
 ADOdb_Active_Record::SetDatabaseAdapter($db);
 
 class User extends ADOdb_Active_Record{}
+class Admin extends ADOdb_Active_Record{}
+class Comment extends ADOdb_Active_Record{}
+class Doctor extends ADOdb_Active_Record{}
 
 ?>
 
