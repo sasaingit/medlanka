@@ -25,12 +25,10 @@ class appManager{
 	}
 	
 	public function createUser($init_user){
-		$user = new User();
-		$user->fb_id = $init_user->fb_id;
-		$user->name = $init_user->name;
-		$user->email = $init_user->email;
-		$user->dob = $init_user->dob;
-		$user->gender = $init_user->gender;
+		$user 			= new User();
+		$user->fb_id 	= $init_user->fb_id;
+		$user->name 	= $init_user->name;
+		$user->email 	= $init_user->email;
 		$user->access_token = $init_user->access_token;
 		$ok = $user->save();
 		if($ok){

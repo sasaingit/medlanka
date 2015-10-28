@@ -36,21 +36,22 @@
 		},"json");
   }
    
-  function registerUser(){
-	  var params 		= new Object();
-	  params.name  		= $('#userName').val();
-	  params.email  	= $('#userEmail').val(); 
-	  params.ic  		= $('#userNRIC').val(); 
-	  params.mobile  	= $('#userMobile').val(); 
-	  params.method  	= 'registerUser'; 
+  function addComment(){
+	  var params 			= new Object();
+	  params.doc_id  		= $('#doc_id').val();
+	  params.friendlyness  	= $('#friendlyness').val(); 
+	  params.knowledge  	= $('#knowledge').val(); 
+	  params.punctuality  	= $('#punctuality').val(); 
+	  params.treatment_time = $('#treatment_time').val();
+	  params.comment  		= $('#comment').val();
+	  params.method  		= 'addComment'; 
 	  
 	  $.post(actionUrl, params,function(data) {		  
 		  	if(data.status == '1'){
 		  		appUser = data.data;
-		  		$('#userRegistrationForm').hide();
-		  		showMessage('successfully registered!');
+		  		showMessage('comment added successfully!');
 			}else{
-				showMessage('user registration failed!');
+				showMessage('operation failed!');
 			}
 	  },"json");
   }

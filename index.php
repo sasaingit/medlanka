@@ -11,59 +11,32 @@
 	
 	<body>
 		<script>
-		  function statusChangeCallback(response) {
-			    console.log('statusChangeCallback');
-			    console.log(response);
-			    // The response object is returned with a status field that lets the
-			    // app know the current login status of the person.
-			    // Full docs on the response object can be found in the documentation
-			    // for FB.getLoginStatus().
-			    if (response.status === 'connected') {
-			      // Logged into your app and Facebook.
-			      testAPI();
-			    } else if (response.status === 'not_authorized') {
-			      // The person is logged into Facebook, but not your app.
-			      document.getElementById('status').innerHTML = 'Please log ' +
-			        'into this app.';
-			    } else {
-			      // The person is not logged into Facebook, so we're not sure if
-			      // they are logged into this app or not.
-			      document.getElementById('status').innerHTML = 'Please log ' +
-			        'into Facebook.';
-			    }
-			}
-
-
-		  function checkLoginState() {
-			    FB.getLoginStatus(function(response) {
-			      statusChangeCallback(response);
-			    });
-			  }
-
-		  
-				
+		var appId = null;
+		var permission = null; 
+		var actionUrl = null;
+		var appUser = null;
+		
 		$(document).ready(function() {
-
-				window.fbAsyncInit = function() {
-				  FB.init({
-				    appId      : '<?=$conf['appId']?>',
-				    cookie     : true,  // enable cookies to allow the server to access 
-				                        // the session
-				    xfbml      : true,  // parse social plugins on this page
-				    version    : 'v2.2' // use version 2.2
-				  });
-				
+				 appId 		= '<?=$conf['appId']?>';
+				 permission = {scope: '<?=$conf['fb_permission']?>'}; 
+				 actionUrl 	= '<?=$conf['action_url']?>';
+							
+			  	window.fbAsyncInit = function() {
+				    FB.init({
+				      appId      : '<?=$conf['appId']?>', // App ID
+				      status     : true, // check login status
+				      cookie     : true, // enable cookies to allow the server to access the session
+				      xfbml      : true  // parse XFBML
+				    });
+	
+			  	};
 		  	
-		  		$('.regUser').click(function() {
-		  			fblogin(permission,registerUser);
+		  		$('.addComment').click(function() {
+		  			fblogin(permission,addComment);
 		  			return false;
 		  		});
 
-		  		 FB.getLoginStatus(function(response) {
-		  		    statusChangeCallback(response);
-		  		  });
-
-		  		  
+		  		
 		  		
 			});
 		   
@@ -73,21 +46,17 @@
 		<div id="fb-root"></div>
 				
 		<div id="userRegistrationForm" >    	
-    	   	<input id="userName"	placeholder="userName" 	type="text" /><br/>
-           	<input id="userMobile"	placeholder="userMobile" 	type="text" /><br/>
-           	<input id="userNRIC"	placeholder="userNRIC" 	type="text" /><br/>
-            <input id="userEmail"	placeholder="userEmail"	type="text" /><br/>
-       		<a href="#" class="regUser">submit</a>     
+    	   	<input id="doc_id"			placeholder="doc_id" 			type="text" /><br/>
+           	<input id="friendlyness"	placeholder="friendlyness" 		type="text" /><br/>
+           	<input id="knowledge"		placeholder="knowledge" 		type="text" /><br/>
+            <input id="punctuality"		placeholder="punctuality"		type="text" /><br/>
+            <input id="treatment_time"	placeholder="treatment_time"	type="text" /><br/>
+            <input id="comment"			placeholder="comment"			type="text" /><br/>
+       		<a href="#" class="addComment">Add comment</a>     
 		</div>
 		
 		<div id="getUser" style="display:none">
 			<a href="#" class="getuser">getuser</a>  
-		</div>
-		
-		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-		</fb:login-button>
-		
-		<div id="status">
 		</div>
 		
 	</body>
