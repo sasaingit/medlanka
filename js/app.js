@@ -48,7 +48,6 @@
 	  
 	  $.post(actionUrl, params,function(data) {		  
 		  	if(data.status == '1'){
-		  		appUser = data.data;
 		  		showMessage('comment added successfully!');
 			}else{
 				showMessage('operation failed!');
